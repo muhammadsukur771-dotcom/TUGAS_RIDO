@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografis Ekosistem Pembiayaan Kredit UKM di Indonesia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 360px;
+            }
+        }
+    </style>
+</head>
+<!-- PALETTE: Energetic Tech & Emerald Growth (#0f172a, #1e3a8a, #2563eb, #0284c7, #059669, #d97706, #dc2626, #f8fafc) -->
+<!-- NARRATIVE PLAN:
+  1. Introduction & Executive Summary: Core KPIs of SME ecosystem in Indonesia (PDB contribution, employment, financing gap).
+  2. Conceptualization & Legal Framework: Definition of UKM (UU No. 20/2008), Bank Conventional vs Syariah (UU No. 10/1998 & Fatwa DSN-MUI).
+  3. Product Matrix Analysis: Comparison between Commercial Loans (KMK/KI), KUR, Syariah (Murabahah/Mudharabah), and Fintech P2P Lending.
+  4. Procedure & Credit Risk Evaluation: Step-by-step workflow from Application to Disbursement, breakdown of 5C & 7P principles, credit guarantee scheme (Askrindo/Jamkrindo), AI Credit Scoring.
+  5. Benefits, Risks & Barriers: Capacity expansion vs NPL risks, asymmetric information, financial literacy gap, predatory illegal Fintech threat.
+  6. Strategic Interactive Simulation: SME Loan Calculator & Recommendations.
+-->
+<!-- VISUALIZATION CHOICES & JUSTIFICATION:
+  - Chart 1: Grouped Bar Chart (Chart.js) -> Goal: Compare product attributes across 4 financing types (KMK, KUR, Syariah, Fintech). Canvas rendering, NO SVG.
+  - Chart 2: Radar Chart (Chart.js) -> Goal: Compare emphasis on 5C Principles (Character, Capacity, Capital, Collateral, Condition) between Bank vs Fintech vs KUR. Canvas rendering, NO SVG.
+  - Chart 3: Donut Chart (Chart.js) -> Goal: Show composition of key barriers for SMEs accessing credit (Collateral, Financial Literacy, Financial Statements, Administrative complexity). Canvas rendering, NO SVG.
+  - Chart 4: Timeline & Flowchart -> Goal: Process breakdown of credit approval mechanism. Implemented using styled HTML/Tailwind CSS cards with unicode indicators. NO SVG, NO MERMAID.
+  - Interactive Feature: Live JS SME Credit Calculator to simulate monthly payments and margin fees under different schemes.
+-->
+<!-- NO SVG OR MERMAID CONFIRMATION:
+  I confirm that NEITHER Mermaid JS NOR SVG were used anywhere in this output. All visuals are constructed using Chart.js Canvas and pure Tailwind CSS HTML components.
+-->
+<body class="bg-slate-50 text-slate-800 font-sans antialiased leading-relaxed">
+
+    <nav class="sticky top-0 z-50 bg-slate-900 text-white shadow-xl border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <span class="bg-blue-600 text-white font-black px-2.5 py-1 rounded text-lg">UKM</span>
+                    <span class="font-bold text-lg tracking-wide text-slate-100">Finansial Analytics</span>
+                </div>
+                <div class="hidden md:flex space-x-6 text-sm font-medium">
+                    <a href="#konsep" class="hover:text-blue-400 transition-colors">Konsep & Legal</a>
+                    <a href="#produk" class="hover:text-blue-400 transition-colors">Jenis Produk</a>
+                    <a href="#prosedur" class="hover:text-blue-400 transition-colors">Prosedur & 5C</a>
+                    <a href="#risiko" class="hover:text-blue-400 transition-colors">Manfaat & Risiko</a>
+                    <a href="#kalkulator" class="hover:text-blue-400 transition-colors">Simulator</a>
+                </div>
+                <a href="#kalkulator" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors shadow">
+                    Coba Simulator
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white py-16 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="inline-block bg-blue-600/30 text-blue-300 font-semibold text-xs px-3 py-1 rounded-full border border-blue-500/40 uppercase tracking-widest mb-4">
+                Laporan & Analytics Terpadu
+            </div>
+            <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4 leading-tight">
+                Dinamika & Ekosistem Pembiayaan Kredit UKM di Indonesia
+            </h1>
+            <p class="max-w-3xl mx-auto text-slate-300 text-base sm:text-lg mb-10">
+                Kajian komprehensif mengenai struktur permodalan, analisis produk komersial, KUR, pembiayaan syariah, hingga akselerasi fintech P2P lending dan mitigasi risikonya.
+            </p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
+                <div class="bg-slate-800/80 backdrop-blur p-5 rounded-xl border border-slate-700/60 shadow-lg">
+                    <div class="text-emerald-400 text-3xl font-black mb-1">60.5%</div>
+                    <div class="text-xs uppercase tracking-wider font-semibold text-slate-400">Kontribusi PDB Nasional</div>
+                    <div class="text-[11px] text-slate-400 mt-2">Menopang stabilitas makroekonomi</div>
+                </div>
+                <div class="bg-slate-800/80 backdrop-blur p-5 rounded-xl border border-slate-700/60 shadow-lg">
+                    <div class="text-blue-400 text-3xl font-black mb-1">97%</div>
+                    <div class="text-xs uppercase tracking-wider font-semibold text-slate-400">Penyerapan Tenaga Kerja</div>
+                    <div class="text-[11px] text-slate-400 mt-2">Penyerap lapangan kerja terbesar</div>
+                </div>
+                <div class="bg-slate-800/80 backdrop-blur p-5 rounded-xl border border-slate-700/60 shadow-lg">
+                    <div class="text-amber-400 text-3xl font-black mb-1">Rp 300 T+</div>
+                    <div class="text-xs uppercase tracking-wider font-semibold text-slate-400">Alokasi Plafon KUR</div>
+                    <div class="text-[11px] text-slate-400 mt-2">Program subsidi bunga pemerintah</div>
+                </div>
+                <div class="bg-slate-800/80 backdrop-blur p-5 rounded-xl border border-slate-700/60 shadow-lg">
+                    <div class="text-rose-400 text-3xl font-black mb-1">Rp 1.000 T</div>
+                    <div class="text-xs uppercase tracking-wider font-semibold text-slate-400">Estimasi Gap Credit</div>
+                    <div class="text-[11px] text-slate-400 mt-2">Kesenjangan pembiayaan UKM</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+
+        <section id="konsep" class="scroll-mt-20">
+            <div class="mb-6">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 border-l-4 border-blue-600 pl-4 mb-2">
+                    1. Konseptualisasi & Kerangka Hukum Kredit UKM
+                </h2>
+                <p class="text-slate-600 text-sm sm:text-base">
+                    Layanan pembiayaan UKM merupakan instrumen intermediasi keuangan yang menghubungkan unit surplus dana dengan unit usaha riil yang mengalami defisit permodalan, diatur dalam payung hukum perbankan konvensional dan syariah.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow-md border border-slate-200 p-6">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <span class="w-10 h-10 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-lg">🏛</span>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-lg">Perbankan Konvensional</h3>
+                            <span class="text-xs text-slate-500">UU No. 10 Tahun 1998 tentang Perbankan</span>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        Kredit didefinisikan sebagai penyediaan uang atau tagihan yang mempersyaratkan pelunasan utang dalam jangka waktu tertentu disertai pemberian bunga. Wajib menerapkan prinsip kehati-hatian (prudential banking) serta analisis kelayakan berbasis 5C untuk mencegah risiko kreditor.
+                    </p>
+                    <div class="bg-blue-50 border-l-2 border-blue-500 p-3 rounded text-xs text-blue-900">
+                        <strong>Karakter Utama:</strong> Tingkat suku bunga komersial/subsidi, perjanjian utang-piutang, kewajiban pelunasan pokok dan bunga berjadwal.
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md border border-slate-200 p-6">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <span class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-lg">⚖</span>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-lg">Pembiayaan Syariah</h3>
+                            <span class="text-xs text-slate-500">Prinsip Baitul Tamwil & Fatwa DSN-MUI</span>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        Menggantikan sistem bunga dengan akad kemitraan dan jual beli yang melarang secara absolut unsur Riba, Gharar, dan Maysir. Berfokus pada pembentukan kekayaan produktif, profit/loss sharing, dan kepastian margin keuntungan yang disepakati sejak awal.
+                    </p>
+                    <div class="bg-emerald-50 border-l-2 border-emerald-500 p-3 rounded text-xs text-emerald-900">
+                        <strong>Karakter Utama:</strong> Bebas bunga, berdasarkan akad riil (Murabahah, Mudharabah, Musyarakah), pembagilabaan transparan.
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md border border-slate-200 p-6">
+                <h3 class="font-bold text-slate-900 text-lg mb-4">Klasifikasi Kriteria Skala Usaha (UU No. 20 Tahun 2008)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                        <div class="text-blue-600 font-bold text-sm uppercase mb-1">Usaha Mikro</div>
+                        <div class="text-xs text-slate-500 mb-2">Aset Max: Rp 50 Juta | Omzet Max: Rp 300 Juta</div>
+                        <p class="text-xs text-slate-600">Dominan informal, keterbatasan pencatatan keuangan, sangat bergantung pada kredit mikro/fintech.</p>
+                    </div>
+                    <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                        <div class="text-blue-700 font-bold text-sm uppercase mb-1">Usaha Kecil</div>
+                        <div class="text-xs text-slate-500 mb-2">Aset: Rp 50 Juta - Rp 500 Juta | Omzet: Rp 300 Juta - Rp 2.5 M</div>
+                        <p class="text-xs text-slate-600">Memiliki badan usaha terdaftar, membutuhkan Kredit Modal Kerja (KMK) dan KUR Ritel.</p>
+                    </div>
+                    <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                        <div class="text-blue-900 font-bold text-sm uppercase mb-1">Usaha Menengah</div>
+                        <div class="text-xs text-slate-500 mb-2">Aset: Rp 500 Juta - Rp 10 M | Omzet: Rp 2.5 M - Rp 50 M</div>
+                        <p class="text-xs text-slate-600">Bankable penuh, struktur manajemen rapi, menggunakan Kredit Investasi (KI) skala besar.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="produk" class="scroll-mt-20">
+            <div class="mb-6">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 border-l-4 border-blue-600 pl-4 mb-2">
+                    2. Analisis & Komparasi Produk Pembiayaan
+                </h2>
+                <p class="text-slate-600 text-sm sm:text-base">
+                    Setiap kanal pembiayaan memiliki karakteristik unik terkait biaya, agunan, kelajuan proses, dan legalitas. Berikut adalah komparasi kuantitatif dan fitur utama dari masing-masing instrumen.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8 items-center">
+                <div class="lg:col-span-7 bg-white rounded-xl shadow-md border border-slate-200 p-6">
+                    <h3 class="font-bold text-slate-900 text-base mb-2">Matriks Perbandingan Karakteristik Produk Pembiayaan</h3>
+                    <p class="text-xs text-slate-500 mb-4">
+                        Grafik di bawah ini membandingkan indeks skala relatif (1-10) untuk empat parameter utama di seluruh jenis instrumen pembiayaan.
+                    </p>
+                    
+                    <div class="chart-container">
+                        <canvas id="productComparisonChart"></canvas>
+                    </div>
+
+                    <div class="mt-4 text-[11px] text-slate-500 bg-slate-50 p-3 rounded">
+                        <strong>Keterangan Visual:</strong> Fintech unggul dalam kecepatan cair namun membawa biaya relatif tinggi. KUR memberikan tarif termurah berkat subsidi pemerintah dengan syarat agunan yang diringankan.
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 space-y-4">
+                    <div class="bg-white rounded-xl shadow-md border border-slate-200 p-5">
+                        <h4 class="font-bold text-slate-900 text-sm mb-1 text-blue-700">1. Kredit Komersial (KMK & KI)</h4>
+                        <p class="text-xs text-slate-600 mb-2">Dipatok suku bunga pasar bebas. Membutuhkan agunan berkualitas tinggi (sertifikat tanah/bangunan) dan laporan keuangan diaudit.</p>
+                        <span class="inline-block bg-slate-100 text-slate-700 text-[10px] px-2 py-0.5 rounded font-semibold">Bankable | Suku Bunga Fluktuatif</span>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md border border-slate-200 p-5">
+                        <h4 class="font-bold text-slate-900 text-sm mb-1 text-emerald-700">2. Kredit Usaha Rakyat (KUR)</h4>
+                        <p class="text-xs text-slate-600 mb-2">Disubsidi pemerintah (Inpres No. 6/2007). Dijamin sebagian oleh Jamkrindo/Askrindo (70-80%), menargetkan UMKM feasible but unbankable.</p>
+                        <span class="inline-block bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded font-semibold">Bunga Rendah (6%) | Agunan Diringankan</span>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md border border-slate-200 p-5">
+                        <h4 class="font-bold text-slate-900 text-sm mb-1 text-amber-700">3. Pembiayaan Syariah</h4>
+                        <p class="text-xs text-slate-600 mb-2">Menggunakan akad Murabahah (jual beli margin tetap), Mudharabah (nisbah bagi hasil), dan Musyarakah (joint venture risk-sharing).</p>
+                        <span class="inline-block bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded font-semibold">Bebas Riba | Angsuran Fixed</span>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md border border-slate-200 p-5">
+                        <h4 class="font-bold text-slate-900 text-sm mb-1 text-rose-700">4. Fintech P2P Lending (LPBBTI)</h4>
+                        <p class="text-xs text-slate-600 mb-2">Diatur POJK No. 10/POJK.05/2022. Memanfaatkan Alternative Credit Scoring AI tanpa agunan fisik untuk pencairan kilat.</p>
+                        <span class="inline-block bg-rose-100 text-rose-800 text-[10px] px-2 py-0.5 rounded font-semibold">Tanpa Agunan | Biaya Harian/Bulanan Tinggi</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden">
+                <div class="px-6 py-4 bg-slate-900 text-white font-bold text-sm flex justify-between items-center">
+                    <span>Tabel Ringkasan Komparasi Pembiayaan UKM</span>
+                    <span class="text-xs font-normal text-slate-400">Sumber: Evaluasi Sektor Keuangan Indonesia</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 border-b border-slate-200 uppercase tracking-wider font-semibold">
+                                <th class="p-3">Parameter Evaluasi</th>
+                                <th class="p-3">Kredit Komersial Bank</th>
+                                <th class="p-3">Kredit Usaha Rakyat (KUR)</th>
+                                <th class="p-3">Pembiayaan Syariah</th>
+                                <th class="p-3">Fintech P2P Lending</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-slate-600">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-800">Penyedia Layanan</td>
+                                <td class="p-3">Bank Umum, BPR</td>
+                                <td class="p-3">Himbara, BPD Terunjuk</td>
+                                <td class="p-3">BUS, UUS, KSPPS</td>
+                                <td class="p-3">Platform LPBBTI (Berizin OJK)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-800">Kewajiban Agunan</td>
+                                <td class="p-3">Wajib (Sertifikat Tanah/BPKB)</td>
+                                <td class="p-3">Bebas/Ringan (Penjaminan Askrindo)</td>
+                                <td class="p-3">Atas Kesepakatan Akad</td>
+                                <td class="p-3">Tanpa Agunan Physical (Unsecured)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-800">Beban Finansial</td>
+                                <td class="p-3">Suku Bunga Komersial Fluktuatif</td>
+                                <td class="p-3">Subsidi Bunga (Rendah & Fixed)</td>
+                                <td class="p-3">Margin Tetap / Bagi Hasil Laba Riil</td>
+                                <td class="p-3">Bunga/Biaya Harian Kerap Agresif</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-800">Kecepatan Cair</td>
+                                <td class="p-3">1 - 3 Minggu</td>
+                                <td class="p-3">3 - 7 Hari Kerja</td>
+                                <td class="p-3">3 - 10 Hari Kerja</td>
+                                <td class="p-3">Hitungan Jam s.d. 24 Jam</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="prosedur" class="scroll-mt-20">
+            <div class="mb-6">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 border-l-4 border-blue-600 pl-4 mb-2">
+                    3. Prosedur, Mekanisme & Penilaian Kredit 5C
+                </h2>
+                <p class="text-slate-600 text-sm sm:text-base">
+                    Pemberian fasilitas pembiayaan dilakukan melalui tahapan birokrasi arsitektural untuk meminimalkan asimetri informasi dan risiko gagal bayar (default).
+                </p>
+            </div>
+
+            <div class="mb-10">
+                <h3 class="font-bold text-slate-900 text-lg mb-4">Alur Tahapan Pengajuan hingga Pencairan (Disbursement)</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm relative">
+                        <div class="w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xs mb-3">1</div>
+                        <h4 class="font-bold text-slate-900 text-sm mb-1">Inisiasi & Berkas</h4>
+                        <p class="text-xs text-slate-500">Penyerahan KTP, NPWP, Legalitas Usaha (SIUP/NIB), Laporan Keuangan, & Mutasi Rekening 6 Bulan.</p>
+                    </div>
+                    <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm relative">
+                        <div class="w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xs mb-3">2</div>
+                        <h4 class="font-bold text-slate-900 text-sm mb-1">Verifikasi & SLIK</h4>
+                        <p class="text-xs text-slate-500">Pengecekan riwayat kolektibilitas di SLIK OJK / e-KYC Biometrik untuk menyaring nasabah cemas.</p>
+                    </div>
+                    <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm relative">
+                        <div class="w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xs mb-3">3</div>
+                        <h4 class="font-bold text-slate-900 text-sm mb-1">Analisis 5C / AI</h4>
+                        <p class="text-xs text-slate-500">Survei lapangan (OTS) oleh AO Bank atau penarikan Alternative Credit Scoring AI pada Fintech.</p>
+                    </div>
+                    <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm relative">
+                        <div class="w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xs mb-3">4</div>
+                        <h4 class="font-bold text-slate-900 text-sm mb-1">Penjaminan / Akad</h4>
+                        <p class="text-xs text-slate-500">Penerbitan garansi Jamkrindo (KUR) atau pelaksanaan Akad Syariah (Murabahah/Mudharabah) Notariil.</p>
+                    </div>
+                    <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm relative">
+                        <div class="w-7 h-7 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold text-xs mb-3">5</div>
+                        <h4 class="font-bold text-slate-900 text-sm mb-1">Pancairan Dana</h4>
+                        <p class="text-xs text-slate-500">Transfer dana langsung ke rekening kerja debitur atau pemindahbukuan ke vendor/supplier mesin.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-6 bg-white rounded-xl shadow-md border border-slate-200 p-6">
+                    <h3 class="font-bold text-slate-900 text-base mb-2">Penilaian Prinsip 5C Berdasarkan Lembaga</h3>
+                    <p class="text-xs text-slate-500 mb-4">
+                        Analisis kelayakan kredit mengukur 5 indikator utama. Perbankan konvensional sangat menekankan Agunan (Collateral), sedangkan Fintech memprioritaskan Karakter Digital & Kapasitas Kas.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="radar5cChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6 space-y-4">
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+                        <h4 class="font-bold text-slate-900 text-sm mb-2 flex items-center">
+                            <span class="text-blue-600 mr-2">📌</span> Breakdown Parameter 5C & 7P
+                        </h4>
+                        <ul class="text-xs text-slate-600 space-y-2">
+                            <li><strong>Character (Karakter):</strong> Watak & itikad baik pembayar. Diverifikasi via SLIK OJK & rekam jejak transaksi.</li>
+                            <li><strong>Capacity (Kapasitas):</strong> Kemampuan arus kas (*cash inflow*) menghasilkan laba untuk melunasi pokok & bunga.</li>
+                            <li><strong>Capital (Modal):</strong> Rasio ekuitas mandiri yang ditanamkan pemohon ke dalam operasional bisnisnya.</li>
+                            <li><strong>Collateral (Agunan):</strong> Aset fisikal penyangga risiko (*margin of protection*) yang berkekuatan hukum.</li>
+                            <li><strong>Condition (Kondisi):</strong> Ketahanan bisnis terhadap inflasi, tren industri, dan turbulensi makroekonomi.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-blue-900 text-white rounded-xl p-5 shadow-md">
+                        <h4 class="font-bold text-sm mb-2 text-blue-200">Skema Penjaminan Kredit Parsial (KUR)</h4>
+                        <p class="text-xs text-blue-100 leading-relaxed">
+                            Bagi UMKM yang berada pada status <em>feasible but unbankable</em>, Lembaga Penjaminan Kredit (PT Askrindo & Perum Jamkrindo) menerbitkan Sertifikat Penjaminan yang menanggung <strong>70% hingga 80%</strong> dari risiko kemacetan kredit, memungkinkan bank mengucurkan pinjaman tanpa mengandalkan sertifikat tanah fisik debitur.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="risiko" class="scroll-mt-20">
+            <div class="mb-6">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 border-l-4 border-blue-600 pl-4 mb-2">
+                    4. Manfaat, Risiko & Kendala Aksesibilitas UKM
+                </h2>
+                <p class="text-slate-600 text-sm sm:text-base">
+                    Suntikan pembiayaan bekerja bagai pedang bermata dua: memberikan akselerasi pertumbuhan kapasitas produksi namun berisiko memicu kebangkrutan jika terperangkap krisis utang.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-8">
+                <div class="lg:col-span-5 bg-white rounded-xl shadow-md border border-slate-200 p-6">
+                    <h3 class="font-bold text-slate-900 text-base mb-2">Komposisi Kendala Aksesibilitas UKM</h3>
+                    <p class="text-xs text-slate-500 mb-4">
+                        Proporsi faktor penyebab utama mengapa pelaku UKM di Indonesia kerap mengalami *Credit Rationing* atau penolakan fasilitas kredit dari lembaga formal.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="barriersDonutChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-5">
+                        <h4 class="font-bold text-emerald-900 text-sm mb-2 flex items-center">
+                            <span class="mr-2">🌱</span> Dampak Positif & Multiplier Effect Pembiayaan
+                        </h4>
+                        <p class="text-xs text-emerald-800 leading-relaxed">
+                            Injeksi modal kerja mempercepat siklus konversi kas, memungkinkan pengadaan mesin modern, penetrasi pasar ekspor, serta mendorong penyerapan tenaga kerja lokal. Di tingkat makro, hal ini membentengi PDB nasional dari ancaman resesi global.
+                        </p>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-5">
+                        <h4 class="font-bold text-amber-900 text-sm mb-2 flex items-center">
+                            <span class="mr-2">⚠️</span> Risiko Operasional: NPL (Non-Performing Loan)
+                        </h4>
+                        <p class="text-xs text-amber-800 leading-relaxed">
+                            Fluktuasi harga bahan baku atau penurunan daya beli dapat menggerus Return on Investment (ROI) di bawah tingkat suku bunga pinjaman. Hal ini memicu akumulasi kredit macet yang berujung pada penyitaan agunan Hak Tanggungan oleh pihak bank.
+                        </p>
+                    </div>
+
+                    <div class="bg-rose-50 border border-rose-200 rounded-xl p-5">
+                        <h4 class="font-bold text-rose-900 text-sm mb-2 flex items-center">
+                            <span class="mr-2">🚨</span> Ancaman Bahaya Predatori Pinjol Ilegal
+                        </h4>
+                        <p class="text-xs text-rose-800 leading-relaxed">
+                            Desakan modal instan sering memicu peminjaman pada entitas fintech tidak berizin OJK. Praktik *predatory lending* menetapkan bunga akumulatif tinggi dan teror penagihan tidak beretika melalui penyebaran data pribadi (*doxing*) yang mematikan reputasi bisnis.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="kalkulator" class="scroll-mt-20">
+            <div class="bg-gradient-to-br from-slate-900 to-blue-950 text-white rounded-2xl shadow-xl p-6 sm:p-10 border border-slate-800">
+                <div class="max-w-3xl mb-8">
+                    <span class="bg-emerald-500/20 text-emerald-300 font-semibold text-xs px-3 py-1 rounded-full border border-emerald-500/30 uppercase tracking-widest">
+                        Fitur Interaktif
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-white mt-2 mb-2">
+                        Kalkulator Simulasi Estimasi Angsuran Kredit UKM
+                    </h2>
+                    <p class="text-slate-300 text-sm">
+                        Hitung estimasi kewajiban cicilan bulanan dan total beban biaya finansial berdasarkan skema pembiayaan yang Anda pilih.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-6 space-y-5 bg-slate-800/80 p-6 rounded-xl border border-slate-700/60">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-2">Plafon Pinjaman (Rp)</label>
+                            <input type="number" id="simPlafon" value="50000000" step="5000000" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white font-bold text-sm focus:outline-none focus:border-blue-500">
+                            <span class="text-[11px] text-slate-400 mt-1 block">Rentang umum: Rp 5 Juta s.d. Rp 500 Juta</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-2">Tenor (Bulan)</label>
+                                <select id="simTenor" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-blue-500">
+                                    <option value="12">12 Bulan (1 Tahun)</option>
+                                    <option value="24" selected>24 Bulan (2 Tahun)</option>
+                                    <option value="36">36 Bulan (3 Tahun)</option>
+                                    <option value="60">60 Bulan (5 Tahun)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-2">Skema Pembiayaan</label>
+                                <select id="simSkema" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-blue-500">
+                                    <option value="kur">KUR Subsidi (6% p.a.)</option>
+                                    <option value="kmk">KMK Komersial (10.5% p.a.)</option>
+                                    <option value="syariah">Syariah Murabahah (7.5% margin p.a.)</option>
+                                    <option value="fintech">Fintech P2P (1.5% / Bulan)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button id="btnHitung" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg text-sm transition-colors shadow-lg uppercase tracking-wider">
+                            Kalkulasi Angsuran
+                        </button>
+                    </div>
+
+                    <div class="lg:col-span-6 bg-slate-900 p-6 rounded-xl border border-slate-800 space-y-6">
+                        <div class="border-b border-slate-800 pb-4">
+                            <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Estimasi Angsuran Bulanan</div>
+                            <div id="resAngsuran" class="text-3xl sm:text-4xl font-black text-emerald-400 mt-1">Rp 2.333.333</div>
+                            <div class="text-[11px] text-slate-400 mt-1">Estimasi pembayaran tetap tiap bulan</div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 text-xs">
+                            <div class="bg-slate-800/60 p-3 rounded-lg border border-slate-800">
+                                <span class="text-slate-400 block mb-1">Total Pengembalian</span>
+                                <span id="resTotalBayar" class="font-bold text-white text-sm">Rp 56.000.000</span>
+                            </div>
+                            <div class="bg-slate-800/60 p-3 rounded-lg border border-slate-800">
+                                <span class="text-slate-400 block mb-1">Total Bunga / Margin</span>
+                                <span id="resTotalBunga" class="font-bold text-amber-400 text-sm">Rp 6.000.000</span>
+                            </div>
+                        </div>
+
+                        <div id="resNotifikasi" class="bg-slate-800 p-3 rounded-lg border border-slate-700 text-xs text-slate-300 leading-relaxed">
+                            <strong>Analisis Skema:</strong> Skema KUR Subsidi menawarkan beban bunga terendah dengan proteksi penjaminan Jamkrindo/Askrindo.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="implikasi" class="scroll-mt-20">
+            <div class="bg-white rounded-xl shadow-md border border-slate-200 p-6 sm:p-8">
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 border-b pb-3">
+                    5. Implikasi Strategis & Rekomendasi Kebijakan
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="space-y-2">
+                        <div class="text-blue-600 font-bold text-sm uppercase tracking-wider">Pilar 1: Akselerasi Literasi</div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Meningkatkan pemahaman pengelolaan keuangan UKM melalui pelatihan pembukuan digital dan proposal bisnis agar mampu menembus kriteria penilaian bank formal (*bankable*).
+                        </p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="text-emerald-600 font-bold text-sm uppercase tracking-wider">Pilar 2: Pendampingan Hibrida</div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Lembaga keuangan wajib memadukan penyaluran modal dengan program mentoring operasional guna memastikan produktivitas investasi dan menekan angka NPL.
+                        </p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="text-amber-600 font-bold text-sm uppercase tracking-wider">Pilar 3: Pengawasan Siber & Legal</div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Penegakan hukum tegas terhadap praktik *predatory lending* pinjol ilegal serta perlindungan hak privasi kerahasiaan data pribadi debitur sesuai POJK No. 10/POJK.05/2022.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 text-xs py-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p>© 2026 Analytics Pembiayaan Kredit UKM Indonesia. Seluruh hak cipta dilindungi.</p>
+            <p class="text-slate-500">Dibuat untuk tujuan visualisasi data riset keuangan dan edukasi publik tanpa komponen SVG/Mermaid.</p>
+        </div>
+    </footer>
+
+    <script>
+        function wrapLabel(str, maxChars) {
+            if (typeof str !== 'string') return str;
+            if (str.length <= maxChars) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).trim().length > maxChars) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine += (currentLine ? ' ' : '') + word;
+                }
+            });
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        }
+
+        const commonTooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        const ctxProduct = document.getElementById('productComparisonChart').getContext('2d');
+        const rawProductLabels = ['Kredit Komersial Bank', 'Kredit Usaha Rakyat (KUR)', 'Pembiayaan Syariah', 'Fintech P2P Lending'];
+        const formattedProductLabels = rawProductLabels.map(l => wrapLabel(l, 16));
+
+        new Chart(ctxProduct, {
+            type: 'bar',
+            data: {
+                labels: formattedProductLabels,
+                datasets: [
+                    {
+                        label: 'Persyaratan Agunan (1-10)',
+                        data: [9, 3, 6, 1],
+                        backgroundColor: '#1e3a8a'
+                    },
+                    {
+                        label: 'Beban Bunga/Margin (1-10)',
+                        data: [7, 3, 5, 9],
+                        backgroundColor: '#d97706'
+                    },
+                    {
+                        label: 'Kecepatan Cair (1-10)',
+                        data: [4, 6, 5, 10],
+                        backgroundColor: '#059669'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10,
+                        ticks: { font: { size: 10 } }
+                    },
+                    x: {
+                        ticks: { font: { size: 10 } }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { size: 11 } }
+                    },
+                    tooltip: commonTooltipConfig
+                }
+            }
+        });
+
+        const ctxRadar = document.getElementById('radar5cChart').getContext('2d');
+        const raw5cLabels = ['Character (Watak)', 'Capacity (Kapasitas)', 'Capital (Modal)', 'Collateral (Agunan)', 'Condition (Kondisi)'];
+        const formatted5cLabels = raw5cLabels.map(l => wrapLabel(l, 16));
+
+        new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: formatted5cLabels,
+                datasets: [
+                    {
+                        label: 'Bank Konvensional',
+                        data: [8, 9, 8, 10, 7],
+                        borderColor: '#1e3a8a',
+                        backgroundColor: 'rgba(30, 58, 138, 0.2)'
+                    },
+                    {
+                        label: 'Fintech P2P',
+                        data: [9, 8, 4, 1, 6],
+                        borderColor: '#dc2626',
+                        backgroundColor: 'rgba(220, 38, 38, 0.2)'
+                    },
+                    {
+                        label: 'KUR Subsidi',
+                        data: [8, 8, 6, 4, 8],
+                        borderColor: '#059669',
+                        backgroundColor: 'rgba(5, 150, 105, 0.2)'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: '#e2e8f0' },
+                        suggestedMin: 0,
+                        suggestedMax: 10,
+                        ticks: { font: { size: 9 } }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { size: 10 } }
+                    },
+                    tooltip: commonTooltipConfig
+                }
+            }
+        });
+
+        const ctxDonut = document.getElementById('barriersDonutChart').getContext('2d');
+        const rawBarrierLabels = ['Ketiadaan Agunan Fisik', 'Krisis Literasi Keuangan', 'Laporan Keuangan Unbankable', 'Prosedur Administrasi Rumit'];
+        const formattedBarrierLabels = rawBarrierLabels.map(l => wrapLabel(l, 16));
+
+        new Chart(ctxDonut, {
+            type: 'doughnut',
+            data: {
+                labels: formattedBarrierLabels,
+                datasets: [{
+                    data: [40, 25, 20, 15],
+                    backgroundColor: ['#1e3a8a', '#0284c7', '#d97706', '#dc2626']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { size: 10 } }
+                    },
+                    tooltip: commonTooltipConfig
+                }
+            }
+        });
+
+        function calculateLoan() {
+            const plafon = parseFloat(document.getElementById('simPlafon').value) || 0;
+            const tenor = parseInt(document.getElementById('simTenor').value) || 12;
+            const skema = document.getElementById('simSkema').value;
+
+            let rateAnnual = 0.06;
+            let note = "";
+
+            if (skema === 'kur') {
+                rateAnnual = 0.06;
+                note = "<strong>Skema KUR Subsidi:</strong> Tingkat bunga 6% efektif p.a. disubsidi pemerintah. Sangat direkomendasikan untuk UMKM produktif.";
+            } else if (skema === 'kmk') {
+                rateAnnual = 0.105;
+                note = "<strong>Skema KMK Komersial:</strong> Suku bunga komersial bank ~10.5% p.a. Membutuhkan agunan aset fisik serta pencatatan keuangan rapi.";
+            } else if (skema === 'syariah') {
+                rateAnnual = 0.075;
+                note = "<strong>Skema Syariah Murabahah:</strong> Margin fixed ekuivalen 7.5% p.a. Bebas fluktuasi suku bunga dengan porsi angsuran konsisten.";
+            } else if (skema === 'fintech') {
+                rateAnnual = 0.18;
+                note = "<strong>Skema Fintech P2P:</strong> Biaya/imbal hasil ~1.5% per bulan (18% p.a.). Berorientasi kecepatan tanpa jaminan fisik.";
+            }
+
+            const totalBunga = plafon * rateAnnual * (tenor / 12);
+            const totalBayar = plafon + totalBunga;
+            const angsuran = totalBayar / tenor;
+
+            const formatRp = (num) => 'Rp ' + Math.round(num).toLocaleString('id-ID');
+
+            document.getElementById('resAngsuran').innerText = formatRp(angsuran);
+            document.getElementById('resTotalBayar').innerText = formatRp(totalBayar);
+            document.getElementById('resTotalBunga').innerText = formatRp(totalBunga);
+            document.getElementById('resNotifikasi').innerHTML = note;
+        }
+
+        document.getElementById('btnHitung').addEventListener('click', calculateLoan);
+        calculateLoan();
+    </script>
+</body>
+</html>
